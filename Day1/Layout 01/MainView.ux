@@ -1,0 +1,14 @@
+<App>
+	<Rectangle ux:Class="MyRectangle" Height="50">
+		<float4 ux:Property="RectangleColor"/>
+		<string ux:Property="RectangleName"/>
+		<Rectangle Layer="Background" Color="{Property RectangleColor}"/>
+		<Text Value="{Property RectangleName}" Color="White"  Alignment="Center" />
+	</Rectangle>
+	<StackPanel Padding="10,10,10,0" ItemSpacing="10">
+		<MyRectangle RectangleName="First" RectangleColor="Blue"/>
+		<MyRectangle RectangleName="Second" RectangleColor="Red"/>
+		<MyRectangle RectangleName="Third" RectangleColor="Purple"/>
+		<MyRectangle RectangleName="Fourth" RectangleColor="Green"/>
+	</StackPanel>
+</App>

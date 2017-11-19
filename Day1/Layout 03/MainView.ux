@@ -1,0 +1,30 @@
+<App>
+	<JavaScript>
+		var dock1= "Dock1";
+		var dock2= "Dock2";
+		var dock3= "Dock3";
+		var dock4= "Dock4";
+		var dock5= "Dock5";
+		
+		module.exports = {
+			dock1,
+			dock2,
+			dock3,
+			dock4,
+			dock5
+		};
+	</JavaScript>
+	<Rectangle ux:Class="MyRectangle">
+		<float4 ux:Property="RectangleColor"/>
+		<string ux:Property="RectangleName"/>
+		<Rectangle Layer="Background" Color="{Property RectangleColor}"/>
+		<Text Value="{Property RectangleName}" Color="White"  Alignment="Center" />
+	</Rectangle>
+	<DockPanel>
+		<MyRectangle Dock="Left" RectangleName="{dock1}" RectangleColor="Red" />
+		<MyRectangle Dock="Right" RectangleName="{dock2}" RectangleColor="Blue" />
+		<MyRectangle Dock="Top" RectangleName="{dock3}" RectangleColor="Green" Height="100" />
+		<MyRectangle Dock="Bottom" RectangleName="{dock4}" RectangleColor="Teal" Height="100" />
+		<MyRectangle Dock="Fill" RectangleName="{dock5}" RectangleColor="Black" />
+	</DockPanel>
+</App>

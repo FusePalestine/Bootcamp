@@ -1,0 +1,15 @@
+<App>
+	<Rectangle ux:Class="MyRectangle">
+		<float4 ux:Property="RectangleColor"/>
+		<string ux:Property="RectangleName"/>
+		<Rectangle Layer="Background" Color="{Property RectangleColor}"/>
+		<Text Value="{Property RectangleName}" Color="White"  Alignment="Center" />
+	</Rectangle>
+	<DockPanel>
+		<!-- <MyRectangle Dock="Left" RectangleName="Kareem" RectangleColor="Red" />
+		<MyRectangle Dock="Right" RectangleName="Abood" RectangleColor="Blue" />
+		<MyRectangle Dock="Top" RectangleName="Ammar" RectangleColor="Green" Height="100" />
+		<MyRectangle Dock="Bottom" RectangleName="Abdelkareem" RectangleColor="Teal" Height="100" /> -->
+		<MyRectangle Dock="Fill" RectangleName="Fuse" RectangleColor="Black" />
+	</DockPanel>
+</App>
