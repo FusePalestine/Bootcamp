@@ -1,0 +1,7 @@
+<App>
+	<Router ux:Name="router" />
+	<Navigator DefaultPath="ViewTasks">
+		<AddTask router="router" ux:Template="AddTask" />
+		<ViewTasks router="router" ux:Template="ViewTasks"/>
+	</Navigator>
+</App>

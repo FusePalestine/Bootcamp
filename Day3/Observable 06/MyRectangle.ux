@@ -1,0 +1,6 @@
+<Rectangle ux:Class="MyRectangle" Height="150">
+	<float4 ux:Property="RectangleColor"/>
+	<string ux:Property="RectangleName"/>
+	<Rectangle Layer="Background" Color="{Property RectangleColor}"/>
+	<Text Value="{Property RectangleName}" Color="White"  Alignment="Center" />
+</Rectangle>

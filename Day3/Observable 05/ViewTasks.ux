@@ -1,0 +1,146 @@
+<Panel ux:Class="ViewTasks">
+	<Router ux:Dependency="router"/>
+	<JavaScript>
+		var data = require("data.js");
+
+		// console.log(JSON.stringify(ListOfTasks.value));
+	
+		// var ListOfDoneTasks = Observable();
+		// var ListOfRunningTasks = Observable();
+		
+		module.exports = {
+			ListOfTasks:data.ListOfTasks,
+			ListOfDoneTasks:data.ListOfTasks.where(function(item){
+				return item.Status.value==true;
+			}),
+			ListOfRunningTasks:data.ListOfTasks.where(function(item){
+				return item.Status.value==false;
+			}),
+			deleteTask:function(sender){
+				console.log(JSON.stringify(sender.data));
+				var idx = data.ListOfTasks.indexOf(sender.data);
+				console.log("The Index of this task is : "+idx);
+				data.ListOfTasks.removeAt(idx);
+			},
+
+			finishTask:function(sender){
+
+				/*
+					1- idx
+					2- update value
+					3- update observable
+				**/
+				var idx = data.ListOfTasks.indexOf(sender.data);
+				sender.data.Status.value=true;
+				data.ListOfTasks.replaceAt(idx,sender.data);
+
+
+			}
+
+		};
+	</JavaScript>
+	<Panel ux:Class="Task">
+		<string ux:Property="TaskName" />
+		<string ux:Property="Description" />
+		<string ux:Property="StartDate" />
+		<string ux:Property="EndDate" />
+		<bool ux:Property="Status" />
+		<Grid Columns="5*,1*" Padding="5">
+			<StackPanel>
+				<Text Value="{Property TaskName}" />
+				<Text Value="{Property Description}" />
+				<StackPanel>
+					<Text Value="Start Date: {Property StartDate}" />
+					<Text Value="End Date: {Property EndDate}" />
+				</StackPanel>
+			</StackPanel>
+			<StackPanel>
+				<Button>
+					<Text Value="Finished" TextAlignment="Right" />
+					<Tapped Handler="{finishTask}"/>
+
+				</Button>
+				<Button>
+					<Text Value="Delete" TextAlignment="Right" />
+					<Tapped Handler="{deleteTask}"/>
+				</Button>
+			</StackPanel>
+
+		</Grid>
+	</Panel>
+<DockPanel>
+
+    <Panel ux:Class="Tab" ClipToBounds="false" Margin="0,0,0,4" Background="#bdc3c7">
+        <string ux:Property="Text" />
+        <Text Value="{ReadProperty Text}" Color="#FFF" Alignment="Center" />
+    </Panel>
+
+    <Rectangle ux:Name="indicator" LayoutMaster="page1Tab" Alignment="Bottom" Height="4" Color="#6c7a89">
+        <LayoutAnimation>
+            <Move RelativeTo="WorldPositionChange" X="1" Duration="0.4" Easing="BackIn"/>
+        </LayoutAnimation>
+    </Rectangle>
+
+    <Text ux:Class="WelcomeText" FontSize="30" Alignment="Center"/>
+
+    <Grid Dock="Top" ColumnCount="2" Height="50" Background="#bdc3c7">
+            <Panel ux:Name="page1Tab">
+                <Tab Text="Running Tasks">
+                    <Clicked>
+                        <Set navigation.Active="page1" />
+                    </Clicked>
+                </Tab>
+            </Panel>
+            <Panel ux:Name="page2Tab">
+                <Tab Text="Finished Tasks">
+                    <Clicked>
+                        <Set navigation.Active="page2" />
+                    </Clicked>
+                </Tab>
+            </Panel>
+    </Grid>
+    <PageControl ux:Name="navigation">
+        <Page ux:Name="page1" Background="#eee">
+            <WhileActive Threshold="0.5">
+                <Set indicator.LayoutMaster="page1Tab" />
+            </WhileActive>
+            <ScrollView>
+			<StackPanel ItemSpacing="10">
+			<Button>
+				<Text Value="Add Task" TextAlignment="Center" TextColor="#018A7A" />
+				<Tapped>
+					<JavaScript>
+						router.push("AddTask")
+					</JavaScript>
+				</Tapped>
+			</Button>
+			<Each Items="{ListOfRunningTasks}">
+				<Task TaskName="{TaskName}" Description="{Description}" StartDate="{StartDate}" EndDate="{EndDate}" Status="{Status}" />
+			</Each>
+		</StackPanel>
+		</ScrollView>
+        </Page>
+        <Page ux:Name="page2" Background="#abb7b7">
+            <WhileActive Threshold="0.5">
+                <Set indicator.LayoutMaster="page2Tab" />
+            </WhileActive>
+            <ScrollView>
+			<StackPanel ItemSpacing="10">
+				<Button>
+					<Text Value="Add Task" TextAlignment="Center" TextColor="#018A7A" />
+					<Tapped>
+						<JavaScript>
+							router.push("AddTask")
+						</JavaScript>
+					</Tapped>
+				</Button>
+				<Each Items="{ListOfDoneTasks}">
+					<Task TaskName="{TaskName}" Description="{Description}" StartDate="{StartDate}" EndDate="{EndDate}" Status="{Status}" />
+				</Each>
+			</StackPanel>
+		</ScrollView>
+        </Page>
+    </PageControl>
+</DockPanel>
+	
+</Panel>
