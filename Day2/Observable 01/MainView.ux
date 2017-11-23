@@ -1,0 +1,34 @@
+<App>
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+
+		var RectangleName = Observable("First Observable");
+
+		/*
+			0066ff,
+			8a2be2,
+			00cc00,
+		**/
+		var RectangleColor = Observable("#87cefa");
+		
+		function ChangeColor()
+		{
+			RectangleName.value="Fuse bootcamp";	
+		} 
+
+		module.exports = {
+			ChangeColor,
+			RectangleName,
+			RectangleColor,
+		};
+	</JavaScript>
+	<StackPanel>
+		<TextInput Value="{RectangleName}"/>
+		<MyRectangle 
+			RectangleName="{RectangleName}" RectangleColor="{RectangleColor}" />
+		<Button Background="Red" Height="50">
+			<Text Value="Change Color" TextAlignment="Center" />
+			<Tapped Handler="{ChangeColor}" />
+		</Button>
+	</StackPanel>
+</App>

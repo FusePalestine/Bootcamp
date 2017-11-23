@@ -1,0 +1,45 @@
+<App>
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+
+		var ListOfRectangles = Observable();
+	
+		var RectangleName = Observable();
+		var RectangleColor = Observable();
+		
+		function AddRectangle(){
+			ListOfRectangles.add({
+				RectangleName:  RectangleName.value,
+				RectangleColor: RectangleColor.value
+			});
+		}
+		module.exports = {
+			ListOfRectangles,
+			AddRectangle,
+			RectangleName,
+			RectangleColor
+		};
+	</JavaScript>
+	<ScrollView>
+		<StackPanel ItemSpacing="10">
+			<StackPanel Orientation="Horizontal" ItemSpacing="30">
+				<TextInput Value="{RectangleName}" Width="160" PlaceholderText="Rectangle Name" >
+					<Rectangle CornerRadius="20" Layer="Background">
+						<Stroke Color="Black" Width="1"/>
+					</Rectangle>
+				</TextInput>
+				<TextInput Value="{RectangleColor}" Width="160" PlaceholderText="Rectangle Color" >
+					<Rectangle CornerRadius="20" Layer="Background">
+						<Stroke Color="Black" Width="1"/>
+					</Rectangle>
+				</TextInput>
+			</StackPanel>
+			<Button Text="AddRectangle" Height="100" Background="#8a2be2" Clicked="{AddRectangle}"/>
+
+			<Each Items="{ListOfRectangles}">
+				<MyRectangle 
+					RectangleName="{RectangleName}" RectangleColor="{RectangleColor}" />
+			</Each>
+		</StackPanel>
+	</ScrollView>
+</App>

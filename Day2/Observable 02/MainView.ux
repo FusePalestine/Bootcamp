@@ -1,0 +1,38 @@
+<App>
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+
+		var ListOfRectangles = Observable();
+
+		ListOfRectangles.add({
+			RectangleName:"First",
+			RectangleColor : "#0066ff"
+		});
+		ListOfRectangles.add({
+			RectangleName:"Second",
+			RectangleColor : "#8a2be2"
+		});
+		ListOfRectangles.add({
+			RectangleName:"Third",
+			RectangleColor : "#00cc00"
+		});
+		ListOfRectangles.add({
+			RectangleName:"Fourth",
+			RectangleColor : "#87cefa"
+		});
+
+		var RectangleColor = Observable("#87cefa");
+		
+
+		module.exports = {
+			ListOfRectangles,
+		};
+	</JavaScript>
+	<StackPanel>
+		<Each Items="{ListOfRectangles}">
+			<MyRectangle 
+				RectangleName="{RectangleName}" RectangleColor="{RectangleColor}" />
+		</Each>
+		
+	</StackPanel>
+</App>
