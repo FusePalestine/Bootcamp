@@ -1,0 +1,56 @@
+<Panel ux:Class="AddTask" Reuse="None">
+	<Router ux:Dependency="router"/>
+	<JavaScript>
+		var data = require("data.js");
+
+	var Observable = require("FuseJS/Observable");
+
+var taskname = Observable();
+var taskdesc = Observable();
+var tasksdate = Observable();
+var taskedate = Observable();
+		module.exports = {
+			taskname,
+			taskdesc,
+			tasksdate,
+			taskedate,
+
+			AddTask:function()
+			{
+		 
+				data.ListOfTasks.add({
+
+					TaskName:taskname.value,
+					Description : taskdesc.value,
+					StartDate : tasksdate.value,
+					EndDate : taskedate.value,
+					Status : Observable(false)
+				});
+				console.log(JSON.stringify(data.ListOfTasks.toArray()));
+				data.UpdateFile();
+
+				router.goto("ViewTasks");
+			}
+
+		}
+	</JavaScript>
+	<StackPanel>
+		<Grid Columns="2*,6*">
+			<Text>Task Name</Text>
+			<TextInput Value="{taskname}" PlaceholderText="Task Name" />
+
+			<Text>Task Description</Text>
+			<TextInput Value="{taskdesc}" PlaceholderText="Task Description" />
+
+			<Text>Start Date</Text>
+			<TextInput Value="{tasksdate}" PlaceholderText="Start Date" />
+
+			<Text>End Date</Text>
+			<TextInput Value="{taskedate}" PlaceholderText="End Date" />
+		</Grid>
+		<Button>
+				<Text Value="Add Task" TextAlignment="Center" TextColor="#018A7A" />
+				<Tapped Handler="{AddTask}" />
+		</Button>
+	</StackPanel>
+</Panel>
