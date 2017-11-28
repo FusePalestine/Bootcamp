@@ -1,0 +1,96 @@
+<App>
+
+	<JavaScript>
+		var Observable = require("FuseJS/Observable");
+		var ImageList = Observable();
+		var my_data = [];
+		fetch("http://jsonplaceholder.typicode.com/photos")
+		.then(function(data){
+			return data.json();
+		}).then(function(data){
+			my_data = data;
+			for (var i = 0; i < 5; i++) {
+				ImageList.add(data[i]);
+			}
+		});
+
+		function LoadTop(){
+
+		}
+		function LoadBottom(){
+			// console.log( JSON.stringify(my_data[my_data.length-1]));
+			var currentArray = ImageList.toArray();
+			lastId = currentArray[currentArray.length-1].id;
+			for (var i = lastId; i < lastId+5; i++) {
+				ImageList.add(my_data[i]);
+			}
+
+			// if(currentArray.length>60)
+			// {
+			// 	ImageList.removeRange(0,30);
+			// }
+		}
+
+		module.exports = {
+			ImageList,
+			LoadTop,
+			LoadBottom,
+
+		};
+	</JavaScript>
+
+	<DockPanel>
+		<ScrollView>
+			<Scrolled To="Start" Handler="{LoadTop}"/>
+			<Scrolled To="End"   Handler="{LoadBottom}"/>
+			<StackPanel>
+				<Each Items="{ImageList}">
+					<Deferred>
+						<ImagePreloading 
+							Type="Remote"
+							Src="{thumbnailUrl}"
+
+							/>
+					</Deferred>
+				</Each>
+			</StackPanel>
+		</ScrollView>
+	</DockPanel>
+		<Panel ux:Class="ImagePreloading">
+
+		<string ux:Property="Type"/>
+		<string ux:Property="Src"/>
+		<string ux:Property="StretchMode"/>
+		<string ux:Property="ImageWidth"/>
+
+		<WhileString Value="{Property Type}" Equals="Remote">
+			<Image Url="{Property Src}" Width="{Property ImageWidth}" StretchMode="{Property StretchMode}">
+				<Panel ZOffset="-1" Height="30" Width="30" Visibility="Collapsed" Opacity="0" ux:Name="PanelLoader2">
+			        <Circle ux:Name="loader2" Width="20" Height="20" StartAngleDegrees="40" EndAngleDegrees="-90">
+			            <Stroke Width="2" Color="#ccc" />
+			        </Circle>
+			    </Panel>
+				<WhileBusy>
+			        <Spin Target="loader2" Frequency="2"  />
+			        <Change PanelLoader2.Opacity="1" Duration="0.2" />
+			        <Change PanelLoader2.Visibility="Visible" Duration="0.2" />
+			    </WhileBusy>  
+			</Image>
+		</WhileString>
+		<WhileString Value="{Property Type}" Equals="Local">
+			<Image File="{Property Src}" Width="{Property ImageWidth}" StretchMode="{Property StretchMode}">
+
+				<Panel ZOffset="-1" Height="30" Width="30" Visibility="Collapsed" Opacity="0" ux:Name="PanelLoader">
+			        <Circle ux:Name="loader" Width="20" Height="20" StartAngleDegrees="40" EndAngleDegrees="-90">
+			            <Stroke Width="2" Color="#ccc" />
+			        </Circle>
+			    </Panel>
+				<WhileBusy>
+			        <Spin Target="loader" Frequency="2" />
+			        <Change PanelLoader.Opacity="1" Duration="0.2" />
+			        <Change PanelLoader.Visibility="Visible" Duration="0.2" />
+			    </WhileBusy>  
+			</Image>
+		</WhileString>
+	</Panel>
+</App>
