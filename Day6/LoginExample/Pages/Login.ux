@@ -1,0 +1,80 @@
+<Page ux:Class="Login">
+	<Router ux:Dependency="router"/>
+		<JavaScript>
+
+	var Observable = require('FuseJS/Observable');
+	var isPassword= Observable(true) ;
+
+	var username = Observable("a");
+	var password = Observable("a");
+
+	function showPassword() {
+		isPassword.value = !isPassword.value;
+	}
+
+	function login( ) {
+		
+		var ROOT_URL = "http://b.mtcloud.co/api/";
+		if(username.value != "" && password.value!=""){
+			console.log("username: "+username.value);
+			console.log("password: "+password.value);
+
+			var url = encodeURI(ROOT_URL+"Authentication/login");
+			fetch(url , {
+				method: "POST",
+				body: JSON.stringify({
+					userName: "a",
+					password: "a",
+					access_token: "123",
+					language: "english",
+					DeviceType: "Android"
+				}),
+				headers: { 
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+			}).then(function(response) {
+				return response.json(); // Promise Async Method 
+			}).then(function(response) {
+				console.log("response: "+JSON.stringify(response));
+				if(response.status == true)
+				{
+					router.goto("Welcome",response);
+				}
+				else{
+					
+				}
+				// return response.json(); // Promise Async Method 
+			});
+}
+}
+				module.exports = {
+					showPassword,
+					login,
+					isPassword,
+					username,
+					password
+				};
+
+				</JavaScript>	
+				<DockPanel>
+					<StackPanel>
+						<Grid Columns="3*,7*">
+							<Text Value="User Name"/>
+							<TextInput Value="{username}"/>
+
+							<Text Value="Passsword"/>
+							<Panel>
+								<TextInput IsPassword="{isPassword}" Value="{password}"/>
+								<Button Layer="Overlay" Alignment="CenterRight" Tapped="{showPassword}">
+									<Text Value="Show Password"/>
+								</Button>
+							</Panel>
+						</Grid>
+						<Button Tapped="{login}" Alignment="Center">
+							<Text Value="Login"/>
+						</Button>
+					</StackPanel>
+				</DockPanel>
+
+</Page>
